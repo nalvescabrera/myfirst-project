@@ -1,4 +1,4 @@
-function enviar(){
+function enviarForm(){
     var nome = document.getElementById("nomeId");
     var sobrenome = document.getElementById("sobrenomeId");
 
