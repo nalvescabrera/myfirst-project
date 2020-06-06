@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Crud em NodeJs</title>
+</head>
+<body>
+
+<h2>Registros<h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <td>Nome</td>
+                <td>Sobrenome</td>
+                <td>Sexo</td>
+                <td>Ação</td>
+            </tr>
+        </thead>
+        <tbody>
+        <% perfil.forEach(function(details) { %>
+            <tr>
+                <td><%= details.nome %></td>
+                <td><%= details.sobrenome %></td>
+                <td><%= details.sexo %></td>
+                <td><a href="/edit/<%=details._id %>">Editar</a>- <a href="/delete/<%=details._id %>">Deletar</a></td>
+            </tr>
+            <% }) %>
+        </tbody>
+        <button><a href="/">Novo</a></button>
+</body>
+</html>
