@@ -2,9 +2,11 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 
+
 const MongoClient = require('mongodb').MongoClient;
 
 const uri = "mongodb://172.20.0.2:27017/";
+//"mongodb://172.20.0.2:27017/";
 
 MongoClient.connect(uri, (err, client) => {
     if(err) return console.log(err)
@@ -19,8 +21,11 @@ app.use(bodyParser.urlencoded({extended:true}))
 
 app.set('view engine','ejs')
 
+app.get('/', (req, res) => {
+    res.render('index.ejs')
+})
+
 app.get('/',(req,res)=>{
-    //res.render('index.ejs')
     let cursor = db.collection('perfil').find()
 })
 
@@ -35,12 +40,53 @@ app.get('/adicionaPerfil', (req, res) => {
 })
 
 
-    app.post('/adicionaPerfil',(req,res)=>{
+   app.post('/adicionaPerfil',(req,res)=>{
         db.collection('perfil').save(req.body,(err,result)=>{
             if(err) return console.log(err)
 
             console.log('Salvo no banco de dados')
-            res.redirect('/')
+            res.redirect('/adicionaPerfil')
             
+        })
+    })
+
+    app.route('/edit/:id')
+    .get((req,res) => {
+        var id = req.params.id
+
+        db.collection('perfil').find(ObjectId(id)).toArray((err,result)=>{
+            if(err) return res.send(err)
+            res.render('edit.ejs',{perfil:result})
+        })
+
+    })
+    .post((req,res)=>{
+        var id = req.params.id
+        var name = req.body.nome
+        var surname = req.body.sobrenome
+        var genero = req.body.sexo
+
+        db.collection('perfil').updateOne({_id: ObjectId(id)},{
+            $set:{
+                name:nome,
+                surname:sobrenome,
+                genero:sexo
+            }
+        }, (err,result)=>{
+            if(err) return res.send(err)
+            res.redirect('/adicionaPerfil')
+            console.log('Atualizado no Banco de Dados')
+        })
+        
+    })
+
+    app.route('/delete/:id')
+    .get((req,res)=> {
+        var id = req.params.id
+
+        db.collection('perfil').deleteOne({_id:ObjectId(id)},(err,result)=>{
+            if(err) return res.send(500,err)
+            console.log('Deletado com sucesso do Banco de Dados!')
+            res.redirect('/adicionaPerfil')
         })
     })
