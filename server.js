@@ -1,8 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
-
-
+const ObjectId = require('mongodb').ObjectID;
 const MongoClient = require('mongodb').MongoClient;
 
 const uri = "mongodb://172.20.0.2:27017/";
@@ -62,15 +61,15 @@ app.get('/adicionaPerfil', (req, res) => {
     })
     .post((req,res)=>{
         var id = req.params.id
-        var name = req.body.nome
-        var surname = req.body.sobrenome
-        var genero = req.body.sexo
+        var name = req.body.name
+        var surname = req.body.surname
+        //var genero = req.body.sexo
 
         db.collection('perfil').updateOne({_id: ObjectId(id)},{
             $set:{
-                name:nome,
-                surname:sobrenome,
-                genero:sexo
+                name:name,
+                surname:surname
+                //genero:sexo        
             }
         }, (err,result)=>{
             if(err) return res.send(err)

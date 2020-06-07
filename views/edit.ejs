@@ -8,8 +8,8 @@
         <h2>Editar Registro</h2>
         <% perfil.forEach(function(details){ %>
             <form action="/edit/<%=details._id %>" method="POST">
-                <input type='text' value="<%=details.name%>"name="nome">
-                <input type='text' value="<%=details.surname%>"name="surname%">
+                <input type='text' value="<%= details.name%>"name="name">
+                <input type='text' value="<%= details.surname%>"name="surname%">
                 <br  />
                 <button><a href="/adicionaPerfil">Todos</a></button>
                 <button type="submit">Editar</button>
