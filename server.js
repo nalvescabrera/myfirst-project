@@ -63,21 +63,20 @@ app.get('/adicionaPerfil', (req, res) => {
         var id = req.params.id
         var name = req.body.name
         var surname = req.body.surname
-        //var genero = req.body.sexo
+        
 
         db.collection('perfil').updateOne({_id: ObjectId(id)},{
             $set:{
                 name:name,
                 surname:surname
-                //genero:sexo        
+                        
             }
         }, (err,result)=>{
             if(err) return res.send(err)
             res.redirect('/adicionaPerfil')
             console.log('Atualizado no Banco de Dados')
         })
-        
-    })
+     })
 
     app.route('/delete/:id')
     .get((req,res)=> {
